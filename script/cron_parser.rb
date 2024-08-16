@@ -30,6 +30,10 @@ class CronParser
       result = (min..max).to_a
     elsif field&.include?(',')
       result = field.split(',').map(&:to_i)
+    elsif field&.include?('-') && field&.include?('/')
+      range, step = field.split('/')
+      range_start, range_end = range.split('-').map(&:to_i)
+      result = (range_start..range_end).step(step.to_i).to_a  
     elsif field&.include?('-')
       range = field.split('-').map(&:to_i)
       result = (range[0]..range[1]).to_a
